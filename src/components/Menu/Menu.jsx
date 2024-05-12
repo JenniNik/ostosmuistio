@@ -1,12 +1,14 @@
 import styles from './Menu.module.scss'
-
+import { FaShoppingCart } from "react-icons/fa";
+import { FcStatistics } from "react-icons/fc";
+import { MdOutlineSettingsSuggest } from "react-icons/md";
 function Menu() {
 
   return (
     <div className={styles.menu}>
-      <div>list</div>
-      <div>stats</div>
-      <div>profile</div>
+    <div><FaShoppingCart /></div>
+    <div><FcStatistics /></div>
+    <div><MdOutlineSettingsSuggest /></div>
     </div>
   )
 
