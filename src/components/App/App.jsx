@@ -16,8 +16,9 @@ function App() {
               <Item />
               <Item />
               <Item />
-              <Item />
-              <Button>UUSI OSTOS</Button>
+              <Item />             
+              <Button primary>UUSI OSTOS</Button>
+
             </Content>
             <Menu />
           </div>

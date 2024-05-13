@@ -21,3 +21,15 @@
     opacity: 1;
   }
   
+  .button:disabled {
+    background-color:aquamarine;
+    color:darkslateblue;
+    box-shadow:black;
+    opacity: 1;
+  }
+  
+  .button_primary {
+    background-color: $color-primary;
+    color:black;
+  }
+  
