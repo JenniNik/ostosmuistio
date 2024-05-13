@@ -3,7 +3,8 @@ import Item from '../Item'
 import styles from './App.module.scss'
 import Menu from '../Menu'
 import Content from '../Content'
-import Button from '../../shared/buttons'
+import { FloatingButton } from '../../shared/buttons'
+
 
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
               <Item />
               <Item />
               <Item />             
-              <Button primary>UUSI OSTOS</Button>
+              
+              <FloatingButton primary>+</FloatingButton>
 
             </Content>
             <Menu />
