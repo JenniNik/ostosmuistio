@@ -1,11 +1,28 @@
 import AppRouter from '../AppRouter'
 import { useState } from 'react'
 import useLocalStorage from '../../shared/uselocalstorage'
+import firebase from './firebase.js'
+import { collection, getFirestore, onSnapshot  } from 'firebase/firestore'
+import { useEffect } from 'react'
+
 
 
 function App() {
-  const [data, setData] = useLocalStorage('ostosmuistio-data',[])
+  const [data, setData] = useState([])
   const [typelist, setTypelist] = useLocalStorage('ostosmuistio-typelist',[])
+
+  const firestore = getFirestore(firebase)
+
+  useEffect( () => {
+    const unsubscribe = onSnapshot(collection(firestore,'item'), snapshot => {
+      const newData = []
+      snapshot.forEach( doc => {
+        newData.push({ ...doc.data(), id: doc.id })
+      })
+      setData(newData)    
+    })
+    return unsubscribe
+  }, [])
 
 
   const handleItemDelete = (id) => {
