@@ -42,11 +42,12 @@ function ItemForm(props) {
             <div>
             <label htmlFor='type'>Mitä ostit?</label>
             <select name='type' onChange={handleChange} value={values.type}>
-                <option>Ruokakulut</option>
-                <option>Vaatekulut</option>
-                <option>Ravintolakulut</option>
-                <option>Bensiinikulut</option>
+                <option value="">(valitse)</option>
+                { props.typelist.map(
+                  type => <option key={type}>{type}</option>
+                )}
               </select>
+
 
 
             </div>
