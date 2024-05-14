@@ -29,6 +29,10 @@ function ItemForm(props) {
     navigate(-1)
   }
 
+  const handleDelete = () => {
+    props.onItemDelete(values.id)
+    navigate(-1)
+  }
 
   return (
     <div>
@@ -90,7 +94,14 @@ function ItemForm(props) {
 
             </div>
           </div>
-
+          { props.onItemDelete ?
+            <div className={styles.itemform_row}>
+              <div>
+                <Button secondary onClick={handleDelete}>POISTA</Button>
+              </div>
+              <div></div>
+            </div>
+            : null }
         </div>
       </form>
     </div>
