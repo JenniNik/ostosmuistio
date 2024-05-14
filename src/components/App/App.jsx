@@ -47,7 +47,7 @@ function App() {
                  onItemSubmit={handleItemSubmit}
                  onItemDelete={handleItemDelete}
                  onTypeSubmit={handleTypeSubmit} />
-```'
+
 
 
 
