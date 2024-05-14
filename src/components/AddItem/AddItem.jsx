@@ -6,7 +6,7 @@ function AppItem(props) {
   return (
     <div>
       <div className={styles.additem}></div>
-      <h2>Uuden merkinnän lisääminen</h2>
+      <h2>Uusi ostos</h2>
       <ItemForm />
 
     </div> 
