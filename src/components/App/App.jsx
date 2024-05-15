@@ -54,12 +54,14 @@ function App() {
   return (
     <>
       { user ?
-          <AppRouter data={data}
-                     typelist={typelist}
-                     onItemSubmit={handleItemSubmit}
-                     onItemDelete={handleItemDelete}
-                     onTypeSubmit={handleTypeSubmit} />
-        : <Startup auth={auth} />
+                    <AppRouter data={data}
+                    typelist={typelist}
+                    onItemSubmit={handleItemSubmit}
+                    onItemDelete={handleItemDelete}
+                    onTypeSubmit={handleTypeSubmit}
+                    auth={auth}
+                    user={user} />
+                    : <Startup auth={auth} />
       }
     </>
   )
