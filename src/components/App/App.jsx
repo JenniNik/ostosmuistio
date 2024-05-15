@@ -2,69 +2,53 @@ import { useState } from 'react'
 import useLocalStorage from '../../shared/uselocalstorage/uselocalstorage'
 import AppRouter from '../AppRouter'
 import testdata from './testdata.js'
-import firebase, { auth } from './firebase.js'
-import { addDoc, collection, deleteDoc, doc, getFirestore, onSnapshot, orderBy, query, setDoc  } from 'firebase/firestore'
-import { useEffect } from 'react'
-import { onAuthStateChanged } from 'firebase/auth'
-import Startup from '../Startup'
+
 
 function App() {
 
-  const [data, setData] = useState([])
-  
-  const [typelist, setTypelist] = useState([])
-  const [user, setUser] = useState()
+  const [data, setData] = useLocalStorage('taloudenhallinta-data',[])
+  const [typelist, setTypelist] = useLocalStorage('taloudenhallinta-typelist',[])
 
-
-  const firestore = getFirestore(firebase)
-
-  useEffect( () => {
-    
-    const unsubscribe = onSnapshot(query(collection(firestore,'item'),
-                                         orderBy('paymentDate', 'desc')),
-                                   snapshot => {
-      const newData = []
-      snapshot.forEach( doc => {
-        newData.push({ ...doc.data(), id: doc.id })
-      })
-      setData(newData)
-    })
-    return unsubscribe
-  }, [])
-
-  useEffect( () => {
-    onAuthStateChanged(auth, user => {
-      setUser(user)
-    })
-  }, [])
-
-
-  const handleItemDelete = async (id) => {
-    await deleteDoc(doc(firestore, 'item', id))
-  }
-  const handleItemSubmit = async (newitem) => {
-    await setDoc(doc(firestore, 'item', newitem.id), newitem)
+  const handleItemDelete = (id) => {
+    let copy = data.slice()
+    copy = copy.filter(item => item.id !== id)
+    setData(copy)
   }
 
-  
-  const handleTypeSubmit = async (type) => {
-    await addDoc(collection(firestore,'type'),{type: type})
+  const handleItemSubmit = (newitem) => {
+    let copy = data.slice()
+
+    const index = copy.findIndex(item => item.id === newitem.id)
+    if (index >= 0) {
+      copy[index] = newitem
+    } else {
+      copy.push(newitem)
+    }
+
+    copy.sort( (a,b) => {
+      const aDate = new Date(a.paymentDate)
+      const bDate = new Date(b.paymentDate)
+      return bDate - aDate
+    })
+    setData(copy)
+  }
+
+  const handleTypeSubmit = (type) => {
+    let copy = typelist.slice()
+    copy.push(type)
+    copy.sort()
+    setTypelist(copy)
   }
 
   return (
     <>
-      { user ?
-                    <AppRouter data={data}
-                    typelist={typelist}
-                    onItemSubmit={handleItemSubmit}
-                    onItemDelete={handleItemDelete}
-                    onTypeSubmit={handleTypeSubmit}
-                    auth={auth}
-                    user={user} />
-                    : <Startup auth={auth} />
-      }
+      <AppRouter data={data}
+                 typelist={typelist}
+                 onItemSubmit={handleItemSubmit}
+                 onItemDelete={handleItemDelete}
+                 onTypeSubmit={handleTypeSubmit} />
     </>
   )
-
 }
+
 export default App
