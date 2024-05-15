@@ -17,12 +17,13 @@ function AppRouter(props) {
           element: <Items />,
           loader: () => { return props.data } },
           { path: "add", 
-          element: <AddItem onItemSubmit={props.onItemSubmit} typelist={props.typelist} /> },
+          element: <AddItem onItemSubmit={props.onItemSubmit} 
+                            typelist={props.typelist} /> },
 
-          { path: "edit/:id", element: <EditItem onItemSubmit={props.onItemSubmit}
-          onItemDelete={props.onItemDelete} 
-          typelist={props.typelist} />,
-
+        { path: "edit/:id",
+        element: <EditItem onItemSubmit={props.onItemSubmit}
+        onItemDelete={props.onItemDelete} 
+        typelist={props.typelist} />,
 
           loader: ({params}) => {
             const item = props.data.filter(item => item.id === params.id).shift()
@@ -33,16 +34,22 @@ function AppRouter(props) {
             }
           } },
           { path: "stats", element: <Stats data={props.data} /> },
-        { path: "settings",
-        element: <Settings typelist={props.typelist}
-                           onTypeSubmit={props.onTypeSubmit} /> }
+          { path: "settings",
+          element: <Settings typelist={props.typelist}
+                             onTypeSubmit={props.onTypeSubmit}
+                             user={props.user}
+                             auth={props.auth} /> }
+
 
 
       ]
     }
   ])
+  
+
   return (
     <RouterProvider router={router} />
   )
 }
+
 export default AppRouter
